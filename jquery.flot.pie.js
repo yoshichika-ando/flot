@@ -438,6 +438,11 @@ More detail and specific examples can be found in the included HTML file.
 					//ctx.arc(0, 0, radius, 0, angle, false); // This doesn't work properly in Opera
 					ctx.arc(0, 0, radius,currentAngle, currentAngle + angle / 2, false);
 					ctx.arc(0, 0, radius,currentAngle + angle / 2, currentAngle + angle, false);
+					//donut role
+					if (options.series.pie.innerRadius > 0) {
+						ctx.arc(0, 0, innerRadius, currentAngle + angle, currentAngle + angle / 2, true);
+						ctx.arc(0, 0, innerRadius, currentAngle + angle / 2, currentAngle, true);
+					}
 					ctx.closePath();
 					//ctx.rotate(angle); // This doesn't work properly in Opera
 					currentAngle += angle;
@@ -526,37 +531,6 @@ More detail and specific examples can be found in the included HTML file.
 				} // end drawLabels function
 			} // end drawPie function
 		} // end draw function
-
-		// Placed here because it needs to be accessed from multiple locations
-
-		function drawDonutHole(layer) {
-			if (options.series.pie.innerRadius > 0) {
-
-				// subtract the center
-
-				layer.save();
-				var innerRadius = options.series.pie.innerRadius > 1 ? options.series.pie.innerRadius : maxRadius * options.series.pie.innerRadius;
-				layer.globalCompositeOperation = "destination-out"; // this does not work with excanvas, but it will fall back to using the stroke color
-				layer.beginPath();
-				layer.fillStyle = options.series.pie.stroke.color;
-				layer.arc(0, 0, innerRadius, 0, Math.PI * 2, false);
-				layer.fill();
-				layer.closePath();
-				layer.restore();
-
-				// add inner stroke
-
-				layer.save();
-				layer.beginPath();
-				layer.strokeStyle = options.series.pie.stroke.color;
-				layer.arc(0, 0, innerRadius, 0, Math.PI * 2, false);
-				layer.stroke();
-				layer.closePath();
-				layer.restore();
-
-				// TODO: add extra shadow inside hole (with a mask) if the pie is tilted.
-			}
-		}
 
 		//-- Additional Interactive related functions --
 
@@ -734,8 +708,6 @@ More detail and specific examples can be found in the included HTML file.
 			for (var i = 0; i < highlights.length; ++i) {
 				drawHighlight(highlights[i].series);
 			}
-
-			drawDonutHole(octx);
 
 			octx.restore();
 
