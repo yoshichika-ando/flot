@@ -438,7 +438,7 @@ More detail and specific examples can be found in the included HTML file.
 					//ctx.arc(0, 0, radius, 0, angle, false); // This doesn't work properly in Opera
 					ctx.arc(0, 0, radius,currentAngle, currentAngle + angle / 2, false);
 					ctx.arc(0, 0, radius,currentAngle + angle / 2, currentAngle + angle, false);
-					//donut role
+					//donut hole
 					if (options.series.pie.innerRadius > 0) {
 						ctx.arc(0, 0, innerRadius, currentAngle + angle, currentAngle + angle / 2, true);
 						ctx.arc(0, 0, innerRadius, currentAngle + angle / 2, currentAngle, true);
